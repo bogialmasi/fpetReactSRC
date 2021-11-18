@@ -1,16 +1,30 @@
 import React from 'react';
 import { Modal } from "semantic-ui-react";
 
-const Field= ({label, placeholder}) =>{
+const Field= ({label, placeholder, value, name, onChange, ...attrs}) =>{
     return(
         <div className="field">
         <label>{label}</label>
-        <input required type="text" placeholder={placeholder}/>
+        <input name={name} type="text" placeholder={placeholder} value={value} onChange={onChange} {...attrs} />
         </div>
     )
 }
 
 export function TrackForm({onOpen, onClose, open}){
+
+    const [formState, setFormState] = useState({
+        artist: "",
+        title: "",
+        length: "",
+        thumbnailURL: "",
+        spotifyURL: "",
+        chordsURL: "",
+        lyricsURL: ""
+    })
+const handleChange = e => {
+    const {name, value} = e.target
+    setFormState({...formState, [name]:value})
+}
     return (
         
         <Modal open={open} onClose={onClose} onOpen={Open} className="ui modal">
@@ -20,27 +34,15 @@ export function TrackForm({onOpen, onClose, open}){
             <div className="description">
                 <form className="ui form">
                     <div className="three fields">
-                    <Field label="Author" placeholder="John Doe"/>
-                    <Field label="Track Name" placeholder="Song name"/>
-                    <Field label="Length" placeholder="3:00"/>
+                    <Field name="artist" value={formState.artist} onChange={handleChange} label="Author" placeholder="John Doe"/>
+                    <Field name="title" value={formState.name} onChange={handleChange} label="Title" placeholder="Song name"/>
+                    <Field name="length" value={formState.length} onChange={handleChange} label="Length" placeholder="3:00"/>
                         <div className="field">
                             <div className="three fields">
-                            <Field label="Spotify URL" placeholder="https://"/>
-                            <Field label="Lyrics URL" placeholder="https://"/>
-                            <Field label="Guitar URL" placeholder="https://"/>
-                                <div className="field">
-                                    <label>Spotify URL</label>
-                                    <input type="text" placeholder="https://"/>
-                                    </div>
-                                    <div className="field">
-                                        <label>Lyrics URL</label>
-                                        <input type="text" placeholder="https://"/>
-                                        </div>
-                                        <div className="field">
-                                            <label>Guitar tab URL</label>
-                                            <input type="text" placeholder="https://"/>
-                                            </div>
-                                            </div></div></div></form></div></div>
+                            <Field name="spotifyURL" value={formState.spotifyURL} onChange={handleChange} label="Spotify" placeholder="https://"/>
+                            <Field name="lyricsURL" value={formState.lyricsURL} onChange={handleChange} label="Lyrics" placeholder="https://"/>
+                            <Field name="chordsURL" value={formState.chordsURL} onChange={handleChange} label="Chords" placeholder="https://"/>
+                            </div></div></div></form></div></div>
                             <div className="actions">
                                 <button onClick={onClose} className="ui black deny button">
                                     Cancel
