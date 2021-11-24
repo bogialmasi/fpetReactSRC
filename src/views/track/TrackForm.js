@@ -10,9 +10,7 @@ const Field= ({label, placeholder, value, name, onChange, ...attrs}) =>{
     )
 }
 
-export function TrackForm({onOpen, onClose, open}){
-
-    const [formState, setFormState] = useState({
+const defaultFormState = {
         artist: "",
         title: "",
         length: "",
@@ -20,14 +18,29 @@ export function TrackForm({onOpen, onClose, open}){
         spotifyURL: "",
         chordsURL: "",
         lyricsURL: ""
-    })
+    
+}
+
+export function TrackForm({open, onClose, onSubmit}){
+const [formState, setFormState] = useState(defaultFormState)
+
+const resetFormState =(state) =>{setFormState(state)}
+useEffect(() =>{
+    if(open) resetFormState({...defaultFormState,...track})
+}, [open, tracj])
+
 const handleChange = e => {
     const {name, value} = e.target
     setFormState({...formState, [name]:value})
 }
+
+const handleSubmit = () => {
+    e.preventDefault()
+    onSubmit(formState)
+    onClose()
+}
     return (
-        
-        <Modal open={open} onClose={onClose} onOpen={Open} className="ui modal">
+        <Modal as="form" open={open} onClose={onClose} onOpen={Open} onSubmit={handleSubmit} className="ui modal">
         <i className="close icon" onClick={onClose}></i>
         <div className="header">Add new Track</div>
         <div className="image content">
@@ -43,16 +56,15 @@ const handleChange = e => {
                             <Field name="lyricsURL" value={formState.lyricsURL} onChange={handleChange} label="Lyrics" placeholder="https://"/>
                             <Field name="chordsURL" value={formState.chordsURL} onChange={handleChange} label="Chords" placeholder="https://"/>
                             </div></div></div></form></div></div>
-                            <div className="actions">
-                                <button onClick={onClose} className="ui black deny button">
-                                    Cancel
-                                    </button>
-                                <button className="ui positive right labeled icon button">
-                                    Add
-                                    <i className="plus icon"></i>
-                                </button>
-                            </div>
-                        </Modal>
-
+            <div className="actions">
+            <button onClick={onClose} className="ui black deny button">
+                Cancel
+                </button>
+            <button className="ui positive right labeled icon button">
+                Add
+                <i className="plus icon"></i>
+            </button>
+            </div>
+            </Modal>
     )
 }
