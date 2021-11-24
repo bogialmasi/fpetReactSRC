@@ -9,16 +9,17 @@ import { PlaylistsProvider } from './views/state/PlaylistsService';
 
 const render = () =>
   ReactDOM.render(
+    <TracksProvider>
       <PlaylistsProvider>
         <App />
-      </PlaylistsProvider>,
+      </PlaylistsProvider>
+      </TracksProvider>,
     document.getElementById('root')
   );
 
 const start = async () =>{
   const newPlaylist = await playlistsStorage.fill(examplePlaylists)
-  //console.log(examplePlaylists)
-  //console.log(newPlaylist)
+  const newTrack = await tracksStorage.fill(exampleTracks)
   render()
 } 
 start()

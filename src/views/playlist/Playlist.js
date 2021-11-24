@@ -19,7 +19,7 @@ export function Playlist() {
     //a ":" utáni név az új neve 
 
     //Aktuálisan kiválasztott playlist id. Kezdetben a kiválasztott id az 1 [lsd. useState(1)].
-    const [selectedPlaylistId, setSelectedPlaylistId] = useState('1');
+    //const [selectedPlaylistId, setSelectedPlaylistId] = useState('1');
     //Aktuálisan kiválasztott track id. Kezdetben a kiválasztott id az 1 [lsd. useState(1)].
     const [selectedTackId, setSelectedTrackId] = useState('1');
 

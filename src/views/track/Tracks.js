@@ -1,7 +1,6 @@
 import React from 'react';
 import { exampleTracks } from "../../domain/track";
 import { TrackForm } from './TrackForm';
-
 export function Tracks() {
     const[open, setOpen] = useState(false);
     const[tracks, setTracks] = useState(exampleTracks)
