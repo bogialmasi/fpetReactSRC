@@ -1,41 +1,44 @@
-import React from 'react';
+import React, { useContext, useState } from 'react'
 import { exampleTracks } from "../../domain/track";
+import { PlaylistsContext } from '../state/PlaylistsService';
+import { TracksContext } from '../state/TracksService';
+import { Track } from './Track';
 import { TrackForm } from './TrackForm';
+
 export function Tracks() {
-    const[open, setOpen] = useState(false);
-    const[tracks, setTracks] = useState(exampleTracks)
-    const [editTrack, setEditTrack] = useState({})
+    const [open, setOpen] = useState(false)
+    const {tracks, addNewTrack, editTrack, deleteTrack } = useContext(TracksContext)
+    const [editedTrack, setEditedTrack] = useState({})
 
-    const {deleteTrackFromMultiplePlaylist} = useContext(PlaylistContext)
-    
-    const handleOpen = () => useState(true);
-    const handleClose = () => useState(false);
+    const { deleteTrackFromMultiplePlaylist } = useContext(PlaylistsContext)
 
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
-const handleTrack = track => {
-    if(!track.id)
-    addNewTrack(track)
-       // setTracks([...tracks, {...track, id: Date.now().toString()}]);
-    else
-    editTrack(track)
-       // setTracks(tracks.map(tr => tr.id!= track.id? tr: track));
-}
+    const handleTrack = track => {
+        if(!track.id)
+            //setTracks([...tracks, {...track, id: Date.now().toString()}])
+            addNewTrack(track)
+        else
+            //setTracks(tracks.map(tr => tr.id != track.id ? tr : track))
+            editTrack(track)
+    }
 
-const handleNew = () => {
-    setEditTrack({})
-    handleOpen();
-}
+    const handleNew = () =>{
+        setEditedTrack({})
+        handleOpen()
+    }
 
-const handleEdit = track => {
-    setEditTrack(track)
-    handleOpen();
-}
+    const handleEdit = track => {
+        setEditedTrack(track)
+        handleOpen()
+    }
 
-const handleDelete = track => {
-    deleteTrack(track)
-    //setTracks(tracks.filter(tr => tr.id !== track.id))
-    deleteTrackFromMultiplePlaylist(track.id)
-}
+    const handleDelete = track => {
+        //setTracks(tracks.filter(tr => tr.id !== track.id))
+        deleteTrack(track)
+        deleteTrackFromMultiplePlaylist(track.id)
+    }
 
     return (
         <>
@@ -43,7 +46,7 @@ const handleDelete = track => {
                 <button onClick={handleNew} className="ui right floated green button" id="newModal">
                     <i className="plus icon"></i>
                     New track
-                    </button>
+                </button>
                 <h1>Tracks</h1>
                 <table className="ui celled striped table">
                     <thead>
@@ -55,13 +58,14 @@ const handleDelete = track => {
                     </thead>
                     <tbody>
                         {
-                        track.map(track => 
-                        <Track onEdit={() => handleEdit(track)} track={track} key={track.id} onDelete={() => handleDelete(track)}/>)
+                            tracks.map(track =>
+                                <Track onDelete={() => handleDelete(track)} onEdit={() => handleEdit(track)} track={track} key={track.id}/>
+                            )
                         }
-      </tbody>
-    </table>
-  </div>
-<TrackForm open={open} onOpen={handleOpen} onClose={handleClose} onSubmit={handleTrack} track={editTrack}/>
+                    </tbody>
+                </table>
+            </div>
+            <TrackForm open={open} onClose={handleClose} onSubmit={handleTrack} track={editedTrack}/>
         </>
     )
 }

@@ -1,65 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { exampleGames } from './domain/game';
-import { examplePublishers } from './domain/publisher';
-import { GameDetail } from './views/gamelist/GameDetail';
-import { GameForm } from './views/gamelist/GameForm';
-import { Gamelist } from './views/gamelist/Gamelist';
-import { Games } from './views/gamelist/Games';
-import { Menu } from './views/gamelist/menu/Menu';
-import { Clock, Valami } from './Valami';
+import gtaCover from "../assets/gtav.png";
 
-
-export function Game() {
-  const [selectedPublisherId, setSelectedPublisherId] = useState(1);
-  const [selectedGameId, setSelectedGameId] = useState(1);
-
-  const [publisherlist, setPublisherlist] = useState(examplePublishers);
+export const exampleGames = [
+  {
+    id: 1,
+    publisher: "Rockstar Games",
+    title: "Grand Theft Auto V",
+    release: "17 September 2013",
+    thumbnailURL: gtaCover,
+    steamURL: "https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/",
+    officialWebsiteURL: "https://tabs.ultimate-guitar.com/tab/bon-jovi/its-my-life-chords-951538",
+  },
+  {
+    id: 2,
+    publisher: "Rockstar Games",
+    title: "Red Dead Redemption 2",
+    release: "November 5, 2019",
+  },
+  {
+    id: 3,
+    publisher: "Rockstar Games",
+    title: "The Warriors",
+    release: "October 17, 2005",
+  },
   
-  const publisherList = examplePublishers.find(pl => pl.id === selectedPublisherId);
-  const game = exampleGames.find(gm => gm.id === selectedGameId);
-
-  const handleGamelistChange = e => {
-    console.log(e)
-    setSelectedPublisherId(e);
-    setSelectedGameId(null);
-  }
-
-  const addNewGamelist = function(title){
-    const id = publisherlist.reduce((maxId, pl) => Math.max(maxId, pl.id), 200) + 1;
-    setPublisherlist([...publisherlist, {id, title, tracks: []}]);
-  }
-
+  {
+    id: 4,
+    publisher: "Riot Games",
+    title: "League of Legends",
+    release: "October 27, 2009",
+  },
+  {
+    id: 5,
+    publisher: "Riot Games",
+    title: "Valorant",
+    release: "June 2, 2020",
+  },
   
-
-  //-----------------------------------
- 
-
-    return (
-        <BrowserRouter>
-          <Route exact path="/">
-            <Clock/>
-            <div className="ui container">
-              <Menu />
-              <div className="ui container">
-                <h1>My game list</h1>
-                <div className="ui stackable">
-                  <div className="ui six wide row">
-                    <Gamelist publisherlist={publisherlist} selectedPublisherId={selectedPublisherId} onSubmit={handleGamelistChange}/>
-                    <GameForm onSubmit={addNewGamelist}/>
-                  </div>
-                  <div className="ui ten wide row">
-                    <Games publisherList={publisherList} selectedGameId={selectedGameId} onSelect={setSelectedGameId}/>
-                  </div>
-                </div>
-                <div className="ui divider"></div>
-                <GameDetail selectedGame={game}/>
-              </div>
-            </div>
-          </Route>
-          <Route path="/alma">
-            <Valami/>
-          </Route>
-      </BrowserRouter>
-    );
-  }
+  {
+    id: 6,
+    publisher: "Ubisoft",
+    title: "The Crew 2",
+    release: "June 29, 2018",
+  },
+  {
+    id: 7,
+    publisher: "Ubisoft",
+    title: "Assassin's Creed Valhalla",
+    release: "November 10, 2020",
+  },
+  {
+    id: 8,
+    publisher: "Ubisoft",
+    title: "Watch Dogs: Legion",
+    release: "29 October 2020",
+  },
+];

@@ -5,6 +5,7 @@ import { Layout } from './views/layout/Layout';
 import { NotFound } from './views/notFound/NotFound';
 
 import { Playlist } from './views/playlist/Playlist';
+import { Tracks } from './views/track/Tracks';
 
 export function App() {
   return (
@@ -16,10 +17,10 @@ export function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          {/*Playlist oldal ?=nem kötelező megadni*/}
+          {/*Playlist oldal*/}
           <Route path="/playlist/:playlistId?/:trackId?">
             <Playlist />
-            </Route>
+          </Route>
           <Route path="/tracks">
             <Tracks />
           </Route>

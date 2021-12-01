@@ -28,28 +28,28 @@ const usePlaylistsService = () => {
     }
 
     const deleteTrackFromPlaylist = async (pl, trackId) => {
-        const modifiedPlaylist = {...pl, tracks: pl.tracks.filter(tr => tr.id != trackId)}
+        const modifiedPlaylist = {...pl, tracks: pl.tracks.filter(id => id != trackId)}
         return await playlistsStorage.update(modifiedPlaylist)
     }
 
-    const deleteTrackFromMultiplePlaylist = async (trackId) =>{
+    const deleteTrackFromMultiplePlaylist = async trackId => {
         setPlaylist(await Promise.all(playlist.map(async pl => await deleteTrackFromPlaylist(pl, trackId))))
     }
 
     const addTrackToPlaylist = async (playlistId, trackId) => {
-        const playlist = playlist.find(pl => pl.id == playlistId);
+        const plist = playlist.find(pl => pl.id == playlistId)
 
-        if(!playlist) return
+        if(!plist) return
 
-        if(playlist.tracks.includes(trackId)) return
+        if(plist.tracks.includes(trackId)) return
 
-        const modifiedPlaylist = {...playlist, tracks: playlist.tracks.concat(trackId)}
+        const modifiedPlaylist = {...plist, tracks: plist.tracks.concat(trackId)}
         const updatedPlaylist = await playlistsStorage.update(modifiedPlaylist)
         setPlaylist(playlist.map(pl => pl.id !== playlistId ? pl : updatedPlaylist))
     }
 
     //Service
-    const playlistsService = { playlist, addNewPlaylist, addNewPlaylist, deleteTrackFromPlaylist, deleteTrackFromMultiplePlaylist, addTrackToPlaylist }
+    const playlistsService = { playlist, addNewPlaylist, deleteTrackFromPlaylist, deleteTrackFromMultiplePlaylist, addTrackToPlaylist }
 
     return playlistsService
 }
