@@ -14,9 +14,11 @@ export function Tracks() {
 
 const handleTrack = track => {
     if(!track.id)
-        setTracks([...tracks, {...track, id: Date.now().toString()}]);
+    addNewTrack(track)
+       // setTracks([...tracks, {...track, id: Date.now().toString()}]);
     else
-        setTracks(tracks.map(tr => tr.id!= track.id? tr: track));
+    editTrack(track)
+       // setTracks(tracks.map(tr => tr.id!= track.id? tr: track));
 }
 
 const handleNew = () => {
@@ -30,7 +32,8 @@ const handleEdit = track => {
 }
 
 const handleDelete = track => {
-    setTracks(tracks.filter(tr => tr.id !== track.id))
+    deleteTrack(track)
+    //setTracks(tracks.filter(tr => tr.id !== track.id))
     deleteTrackFromMultiplePlaylist(track.id)
 }
 

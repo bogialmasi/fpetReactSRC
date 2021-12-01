@@ -26,7 +26,7 @@ export function Playlist() {
     const { playlist, addNewPlaylist } = useContext(PlaylistsContext)
 
     const playlistsWithTracks = playlist.map(pl => ({
-        pl,
+        ...pl,
         tracks: pl.tracks.map(trackId => exampleTracks.find(track => track.id === trackId))
     }))
 
@@ -63,24 +63,3 @@ return (
     </div>
 );
 }
-
-
-    /*
-      Horgok (Hooks)
-        Mi a horog? - A horog egy speciális függvény, aminek köszönhetően állapotot adhatunk a függvénykomponenseknek.
-        Mikor használjuk a horgokat? - Ha egy függvénykomponenshez állapotot szeretnénk adni. (Régebben az állapotok csak az osztállyá konvertálás után volt lehetséges)
-        Hogyan használhatjuk a Horgokat? - A horgok használata a useState függvény segítségével történik.
-        Mi a useState függvény? - A useState függvény egy párt ad vissza, ahol az első paraméter a jelenlegi állapotérték, a második paraméter egy függvény, amivel frissíteni tudjuk az állapotértéket. Egyetlen argumentuma az állapot kezdeti értéke.
-        Honnan lehet meghívni a useState függvényt? - A függvény meghívható egy eseménykezelőből vagy máshonnan.
-        !!!FONTOS!!! - A useState nem egyesíti a régi és az új állapotokat.
-  
-        Szabályok a horgok használatára:
-          - Horgokat csak a legfelsőbb szinten hívj meg. Ne történjen hívás ciklusokban, egymásba ágyazott függvényekben vagy feltételes ágakban.
-          - Horgokat csak React függvénykomponensből(!!!) hívj meg. 
-    
-        useState:
-          - Egy állapotváltozót deklarál. Ennek segítségével az értékek megőrzésre kerülnek a függvényhívások között.
-          - Argumentuma a horog kezdeti állapota. (Ez lehet objektum, egy sima string vagy szám)
-          - A useState két értéket ad vissza, amit tömb lebontó szintaxis segítségével különféle neveket adhatunk az adott értékeknek. A visszaadott értékekek közül az első a jelenlegi állapotérték a második egy függvény, amivel frissíthetjük az állapotértéket.
-  
-    */
