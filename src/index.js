@@ -8,15 +8,24 @@ import { examplePlaylists } from './domain/playlist';
 import { exampleTracks } from './domain/track';
 import { Game } from './Game';
 import { PlaylistsProvider } from './views/state/PlaylistsService';
+import { configureStore } from './views/state/store';
 import { TracksProvider } from './views/state/TracksService';
+
+const store = configureStore();
+store.dispatch({
+  type: "ADD_TRACK",
+  payload: {title:"q", artist:"w"},
+});
 
 const render = () =>
   ReactDOM.render(
-    <TracksProvider>
+    <Provider store={store}>
+          <TracksProvider>
       <PlaylistsProvider>
         <App />
       </PlaylistsProvider>
-    </TracksProvider>,
+    </TracksProvider>
+    </Provider>,
     document.getElementById('root')
   );
 
