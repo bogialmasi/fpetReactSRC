@@ -1,36 +1,31 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { PlaylistForm } from "./PlaylistForm";
 import { PlaylistList } from "./PlaylistList";
 import { TrackDetails } from "./TrackDetails";
 import { TrackList } from "./TrackList";
-
-//Playlisteket tartalmazó fájl importálása
-import { examplePlaylists } from "../../domain/playlist";
-//Trackeket tartalmazó fájl importálása
-import { exampleTracks } from "../../domain/track";
 import { PlaylistsContext } from "../state/PlaylistsService";
 import { useParams } from "react-router";
-import { TracksContext } from "../state/TracksService";
+import { useDispatch, useSelector } from "react-redux";
+import { getPlaylistsWithTracks } from "../state/selectors";
+import { addPlaylist } from "../state/playlists/actions";
 
 export function Playlist() {
+  const dispatch = useDispatch();
   const { playlistId: selectedPlaylistId, trackId: selectedTackId } =
     useParams();
 
-  const { playlist, addNewPlaylist } = useContext(PlaylistsContext);
-  const { tracks } = useContext(TracksContext);
-
-  const playlistsWithTracks = playlist.map((pl) => ({
-    ...pl,
-    tracks: pl.tracks.map((trackId) =>
-      tracks.find((track) => track.id == trackId)
-    ),
-  }));
+  const playlistsWithTracks = useSelector(getPlaylistsWithTracks);
 
   const playList = playlistsWithTracks.find(
-    (play) => play.id == selectedPlaylistId
+    (play) => play.id === selectedPlaylistId
   );
 
-  const track = tracks.find((tr) => tr.id == selectedTackId);
+  const handleNewPlaylist = (title) => {
+    dispatch(addPlaylist(title));
+  };
+
+  const track =
+    playList && playList.tracks.find((tr) => tr.id === selectedTackId);
 
   return (
     <div className="ui container">
@@ -39,7 +34,7 @@ export function Playlist() {
         <div className="ui six wide column">
           <h3>Playlists</h3>
           {/*PlaylistForm komponens felel az új playlist-et felvevő form kezelésért. A komponensnek átadásra került  */}
-          <PlaylistForm onSubmit={addNewPlaylist} />
+          <PlaylistForm onSubmit={handleNewPlaylist} />
           {/*PlaylistList komponens felel a playlistek-kel kapcsolatos műveletekre és megjelenítésekre. A komponensnek átadásra került a playlisteket tartalmazó objektum (playlist), az akutálisan kiválasztott playlist id-ja (selectedPlaylistId), továbbá még átadásra került az a függvény, aminek segítségével a kiválasztás inerakció kezelésre kerül (onSelect). */}
           <PlaylistList
             playlist={playlistsWithTracks}
